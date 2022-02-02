@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Net;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -6,19 +7,26 @@ using UnityEngine;
 
 public class LuaAddTxtSuffixEditor : Editor
 {
+
     [MenuItem("XLua/生成txt后缀的Lua文本")]
+    
     public static void CopyLuaToTxt()
     {
+
+
         //设置要拷贝的所有Lua文件的路经
         string path=Application.dataPath+"/Lua/";
 
         //判断路径是否存在
         if(!Directory.Exists(path))
             return;
-
-        //获取路径下后缀为.lua的文件
-        string[] strs= Directory.GetFiles(path,"*.lua");
-        
+        //递归查找该路径下的所有文件
+        string[] strs= Directory.GetFiles(path,"*.lua",SearchOption.AllDirectories);
+        for(int i=0;i<strs.Length;i++)
+        {
+            strs[i]=strs[i].Replace("\\","/");
+            Debug.Log(strs[i]);
+        }
         //把Lua文件拷贝到一个新的文件夹中
         //声明一个新路径
         string newPath=Application.dataPath+"/LuaToAB/";
@@ -43,6 +51,7 @@ public class LuaAddTxtSuffixEditor : Editor
         {
             //得到新的文件路径 用于拷贝
             fileName=newPath+strs[i].Substring(strs[i].LastIndexOf("/")+1)+".txt";
+            Debug.Log(strs[i].Substring(strs[i].LastIndexOf("/")+1)+".txt");
             newFileNames.Add(fileName);
             File.Copy(strs[i],fileName);
         }
@@ -55,5 +64,8 @@ public class LuaAddTxtSuffixEditor : Editor
             if(importer!=null)
                 importer.assetBundleName="lua";
         }
+        Debug.Log("生成完毕");
     }
+
+
 }
