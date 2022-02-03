@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace ScrollView_CSharp
 {
+    public delegate void InfiniteSV_OnCenterChange(InfiniteSV_ItemData _data);
     public class InfiniteSV : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         #region 数据相关
@@ -27,8 +28,6 @@ namespace ScrollView_CSharp
         #endregion
 
         #region 组件相关
-
-        #endregion
         ScrollRect _scrollRect;
 
         RectTransform _scrollRect_Trans;
@@ -38,14 +37,16 @@ namespace ScrollView_CSharp
         List<GameObject> itemList = new List<GameObject>();
 
         List<InfiniteSV_Item> InfiniteSV_Items = new List<InfiniteSV_Item>();
+        #endregion
 
+        #region 样式相关
         [Header("是否在居中")]
         [SerializeField]
         /// <summary>
         /// 是否正在居中
         /// </summary>
         bool isCentering = false;
-
+        [Header("元素预制体")]
         /// <summary>
         /// 元素预制体
         /// </summary>
@@ -77,6 +78,13 @@ namespace ScrollView_CSharp
         /// <summary>
         /// 中心索引
         /// </summary>
+            
+        #endregion
+        
+        #region 运动变量
+        /// <summary>
+        /// 中心索引
+        /// </summary>
         public int _curMidIndex;
         /// <summary>
         /// 中间位置
@@ -91,21 +99,25 @@ namespace ScrollView_CSharp
         /// 居中速度
         /// </summary>
         public float centerSpeed = 1;
-
+        #endregion
+        /// <summary>
+        /// 当中心元素改变时调用委托
+        /// </summary>
+        public InfiniteSV_OnCenterChange _OnCenterChange;
         void Start()
         {
-            _ItemDatas.Add(new InfiniteSV_ItemData("0", "0"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("1","1"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("2","2"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("3","3"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("4","4"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("5","5"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("6","6"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("7","7"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("8","8"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("9","9"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("10","10"));
-            // _ItemDatas.Add(new InfiniteSV_ItemData("11","11"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("0", "A"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("1","B"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("2","C"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("3","D"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("4","E"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("5","F"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("6","G"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("7","H"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("8","I"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("9","J"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("10","K"));
+            _ItemDatas.Add(new InfiniteSV_ItemData("11","L"));
 
             // _ItemDatas.Add(new InfiniteSV_ItemData("0",""));
             // _ItemDatas.Add(new InfiniteSV_ItemData("1",""));
@@ -135,6 +147,9 @@ namespace ScrollView_CSharp
                 }
             }
         }
+        /// <summary>
+        /// 初始化样式及数据
+        /// </summary>
         public void Init()
         {
             //获取组件
@@ -149,8 +164,7 @@ namespace ScrollView_CSharp
             {
                 ItemShowNum += 1;
             }
-
-            //设置一般元素的个数 
+            //设置总元素的个数，多两个用于过渡 
             int itemNum = ItemShowNum + 2;
             //一半的元素个数
             int helfNum = itemNum / 2;
@@ -202,10 +216,14 @@ namespace ScrollView_CSharp
             itemList[_curMidIndex].transform.localScale = _itemScale;
 
             InitData();
+
             SetItemLayer();
 
-            SetCenterItemByNum(itemList[0].transform.localPosition);
+            SetCenterItemByItemPos(itemList[0].transform.localPosition);
         }
+        /// <summary>
+        /// 初始化数据
+        /// </summary>
         public void InitData()
         {
             int itemDataIndex = 0;
@@ -214,7 +232,7 @@ namespace ScrollView_CSharp
             for (int i = 0; i < itemList.Count; i++)
             {
                 _curDataRightIndex = itemDataIndex;
-                itemList[i].GetComponent<InfiniteSV_Item>().InitItem(this, _ItemDatas[itemDataIndex].ItemImageName, _ItemDatas[itemDataIndex].ItemInfo, itemDataIndex);
+                itemList[i].GetComponent<InfiniteSV_Item>().InitItem(this, _ItemDatas[itemDataIndex].ItemImageName, _ItemDatas[itemDataIndex].ItemInfo);
                 itemDataIndex++;
                 if (itemDataIndex >= _ItemDatas.Count)
                 {
@@ -287,7 +305,7 @@ namespace ScrollView_CSharp
                 itemList.Remove(moveObj);
                 itemList.Insert(0, moveObj);
                 //把最右边的元素移动到最左边，将最左边的数据赋给移动过后的列表元素
-                moveObj.GetComponent<InfiniteSV_Item>().UpadatData(_ItemDatas[_curDataLeftIndex], _curDataLeftIndex);
+                moveObj.GetComponent<InfiniteSV_Item>().UpadatData(_ItemDatas[_curDataLeftIndex]);
             }
             else
             {
@@ -297,10 +315,14 @@ namespace ScrollView_CSharp
                 itemList.Remove(moveObj);
                 itemList.Add(moveObj);
                 //把最右边的元素移动到最左边，将最右边的数据赋给移动过后的列表元素
-                moveObj.GetComponent<InfiniteSV_Item>().UpadatData(_ItemDatas[_curDataRightIndex], _curDataRightIndex);
+                moveObj.GetComponent<InfiniteSV_Item>().UpadatData(_ItemDatas[_curDataRightIndex]);
             }
             SetItemLayer();
 
+            if(_OnCenterChange!=null)
+            {
+                 _OnCenterChange(itemList[_curMidIndex].GetComponent<InfiniteSV_Item>()._itemData);
+            }
         }
         /// <summary>
         /// 设置元素层级
@@ -356,7 +378,11 @@ namespace ScrollView_CSharp
             }
 
         }
-        public void SetCenterItemByNum(Vector3 itemPositeion)
+        /// <summary>
+        /// 通过元素位置设置中心元素，用于点击元素时切换中心元素
+        /// </summary>
+        /// <param name="itemPositeion"></param>
+        public void SetCenterItemByItemPos(Vector3 itemPositeion)
         {
             isCentering = true;
             float moveDis = (itemPositeion - itemList[_curMidIndex].transform.localPosition).magnitude;
@@ -389,6 +415,10 @@ namespace ScrollView_CSharp
             }
 
         }
+        /// <summary>
+        /// 移动数据索引
+        /// </summary>
+        /// <param name="isRight">是否是向右</param>
         void MoveDataIndex(bool isRight)
         {
             //Debug.Log(isRight);

@@ -8,6 +8,9 @@ using UnityEngine.EventSystems;
 
 namespace ScrollView_CSharp
 {
+    /// <summary>
+    /// 元素携带数据
+    /// </summary>
     public class InfiniteSV_ItemData
     {
         public string ItemImageName = "";
@@ -19,7 +22,7 @@ namespace ScrollView_CSharp
             ItemInfo = itemInfo;
         }
     }
-    public class InfiniteSV_Item : MonoBehaviour, IPointerDownHandler
+    public class InfiniteSV_Item : MonoBehaviour, IPointerClickHandler
     {
         public int _itemIndex = 0;
         public RectTransform _itemRect;
@@ -27,14 +30,13 @@ namespace ScrollView_CSharp
         public Text _itemText;
         public InfiniteSV_ItemData _itemData;
         public InfiniteSV _infiniteSV;
-        public void InitItem(InfiniteSV _targetInfiniteSV, string itemImageName, string itmeInfo = "", int itemIndex = 0)
+        public void InitItem(InfiniteSV _targetInfiniteSV, string itemImageName, string itmeInfo = "")
         {
             _infiniteSV = _targetInfiniteSV;
             _itemRect = GetComponent<RectTransform>();
             _itemImage = GetComponent<Image>();
             _itemText = transform.Find("Text").GetComponent<Text>();
             _itemData = new InfiniteSV_ItemData(itemImageName, itmeInfo);
-            _itemIndex = itemIndex;
             InitData();
         }
         public void InitData()
@@ -42,17 +44,17 @@ namespace ScrollView_CSharp
             _itemImage.sprite = Resources.Load<Sprite>("UI/" + _itemData.ItemImageName);
             _itemText.text = _itemData.ItemInfo;
         }
-        public void UpadatData(InfiniteSV_ItemData _infiniteSV_ItemData, int itemIndex = 0)
+        public void UpadatData(InfiniteSV_ItemData _infiniteSV_ItemData)
         {
             _itemData = _infiniteSV_ItemData;
-            _itemIndex = itemIndex;
             InitData();
 
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+
+        public void OnPointerClick(PointerEventData eventData)
         {
-            _infiniteSV.SetCenterItemByNum(transform.localPosition);
+             _infiniteSV.SetCenterItemByItemPos(transform.localPosition);
         }
     }
 }
