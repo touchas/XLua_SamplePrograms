@@ -93,6 +93,27 @@ public class ABMgr : SingletonAutoMono<ABMgr>
             return obj;
         }
         
+        
+    }
+    //同步加载 根据type指定类型
+    public Object LoadRes(string abName, string resName,System.Type type,bool isInstantiate=true)
+    {
+        //加载AB包
+        LoadAB(abName);
+        //为了外面方便 在加载资源时 判断一下 资源是不是GameObject
+        //如果是 直接实例化了 再返回给外部
+        Object obj = abDic[abName].LoadAsset(resName, type);
+        if(isInstantiate)
+        {
+            if (obj is GameObject)
+                return Instantiate(obj);
+            else
+                return obj;
+        }
+        else
+        {
+            return obj;
+        }
     }
     //同步加载 根据泛型指定类型 默认直接实例化
     public T LoadRes<T>(string abName, string resName,bool isInstantiate=true) where T:Object

@@ -1,0 +1,42 @@
+ManifestFileVersion: 0
+CRC: 4062968734
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2a42e4a00622026ddd60968b6000cdd0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9b194d5b9eff91d5c6712ab1541268db
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/ScrollView_Lua/SVLua_InfiniteSV_Item.prefab
+- Assets/ScrollView_Lua/SVLua_InfiniteSV.prefab
+Dependencies: []

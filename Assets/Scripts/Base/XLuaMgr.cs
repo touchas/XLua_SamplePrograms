@@ -58,6 +58,7 @@ public class XLuaMgr :SingletonBase<XLuaMgr>
 
         #region 改进代码
         string path=Application.dataPath+"/Lua/";
+        //查找所有文件夹下后缀为.lua的文件
         string[] paths= Directory.GetFiles(path,filePath+".lua",SearchOption.AllDirectories);
         if(paths.Length==0)
         {
@@ -67,7 +68,7 @@ public class XLuaMgr :SingletonBase<XLuaMgr>
             
         if(File.Exists(paths[0]))
         {
-            Debug.Log(filePath+"文件存在1");
+            // Debug.Log(filePath+"文件存在");
             //文件存在，返回byte[]
             return File.ReadAllBytes(paths[0]);
         }

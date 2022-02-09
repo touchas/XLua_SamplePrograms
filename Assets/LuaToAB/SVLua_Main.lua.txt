@@ -1,0 +1,7 @@
+print("SVLua_Main")
+require("Object")
+require("InitClass")
+require("BasePanel")
+
+require("SVLua_InfiniteSV")
+SVLua_InfiniteSV.ShowMe("SVLua_InfiniteSV")

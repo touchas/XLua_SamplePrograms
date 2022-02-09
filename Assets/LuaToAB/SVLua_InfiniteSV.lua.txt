@@ -1,0 +1,6 @@
+print("SVLua_InfiniteSV")
+BasePanel:subClass("SVLua_InfiniteSV")
+
+SVLua_InfiniteSV.panelObj=nil
+
+

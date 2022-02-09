@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 215171527
+CRC: 1871140699
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2c51f43b7b11cfe366a93a8710b8e04e
+    Hash: 64b4c3a8dd19c0480b81d58395597a88
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -13,6 +13,15 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/LuaToAB/LuaCallCSharp.lua.txt
+- Assets/LuaToAB/InitClass.lua.txt
+- Assets/LuaToAB/HotfixTest.lua.txt
 - Assets/LuaToAB/LuaTest.lua.txt
+- Assets/LuaToAB/SVLua_Main.lua.txt
 - Assets/LuaToAB/Main.lua.txt
+- Assets/LuaToAB/BasePanel.lua.txt
+- Assets/LuaToAB/Test.lua.txt
+- Assets/LuaToAB/SVLua_InfiniteSV_Item.lua.txt
+- Assets/LuaToAB/SVLua_InfiniteSV.lua.txt
+- Assets/LuaToAB/Object.lua.txt
 Dependencies: []

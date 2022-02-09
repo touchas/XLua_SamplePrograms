@@ -1,0 +1,15 @@
+
+Object:subClass("SVLua_InfiniteSV_Item")
+SVLua_InfiniteSV_Item.obj=nil
+SVLua_InfiniteSV_Item.Text=nil
+SVLua_InfiniteSV_Item.Img=nil
+
+function SVLua_InfiniteSV_Item:Init()
+    
+    
+end
+
+
+
+
+
